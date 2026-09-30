@@ -303,6 +303,26 @@ public class HelloApplication extends Application {
             todoListView.refresh();
             saveData();
         });
+        // 🔥 NEW: The 10-Minute Shift Buttons
+        Button shiftForward10Btn = new Button("⏩ +10 Mins");
+        shiftForward10Btn.setOnAction(e -> {
+            for (AdvancedTask t : todoList) {
+                t.dueTime = t.dueTime.plusMinutes(10); // Shifts forward by 10 mins
+            }
+            todoList.sort((t1, t2) -> t1.dueTime.compareTo(t2.dueTime));
+            todoListView.refresh();
+            saveData();
+        });
+
+        Button shiftBackward10Btn = new Button("⏪ -10 Mins");
+        shiftBackward10Btn.setOnAction(e -> {
+            for (AdvancedTask t : todoList) {
+                t.dueTime = t.dueTime.minusMinutes(10); // Shifts backward by 10 mins
+            }
+            todoList.sort((t1, t2) -> t1.dueTime.compareTo(t2.dueTime));
+            todoListView.refresh();
+            saveData();
+        });
         Button clearCheckedBtn = new Button("🧹 Clear Checked Tasks");
         clearCheckedBtn.setStyle(
                 "-fx-background-color: #c0392b; " +
@@ -315,7 +335,8 @@ public class HelloApplication extends Application {
             todoListView.refresh();
             saveData();
         });
-        controlBox.getChildren().addAll(shiftForwardBtn, shiftBackwardBtn, clearCheckedBtn);
+        // Add the two new 10-minute buttons straight into the horizontal wrapper bar!
+        controlBox.getChildren().addAll(shiftForwardBtn, shiftBackwardBtn, shiftForward10Btn, shiftBackward10Btn, clearCheckedBtn);
         todoLayout.getChildren().addAll(
                 new Label("Add Scheduled Checklist Item:"), todoEntryBox,
                 new Label("Today's Timeline:"), todoListView,
